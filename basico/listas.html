@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Básico</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Tarefas</h1>
+        <input type="text" placeholder="Add Tarefa" v-model="novaTarefa"/>
+        <button @click="addTarefa">Add Tarefa</button>
+        <ul v-if="tarefasIncompletas.length > 0">
+            <li v-for="t in tarefasIncompletas" :key="t.id">
+                {{t.titulo}} - {{t.completa}}
+                <button @click="mudarStatus(t.id)">Concluir</button>
+            </li>
+        </ul>
+        <p v-else>Nenhuma tarefa pendente no momento</p>
+        <h2>Tarefas Concluídas</h2>
+        <ul>
+            <li v-for="t in tarefasCompletas" :key="t.id">{{t.titulo}} - {{t.completa}}</li>
+        </ul>
+    </div>
+    <script>
+        const { createApp, ref, computed } = Vue
+        createApp({
+            setup(){
+                const novaTarefa = ref('')
+                const tarefas = ref([
+                    {id: 1, titulo: 'Aprender Javascript', completa: true},
+                    {id: 2, titulo: 'Aprender VueJS 3', completa: false},
+                    {id: 3, titulo: 'Aprender Vuex', completa: false},
+                    {id: 4, titulo: 'Aprender Pínia', completa: false},
+                    {id: 5, titulo: 'Aprender Vue Router', completa: true},
+                ])
+
+                const mudarStatus = (tarefaId) => {
+                    const tarefa = tarefas.value.find(t => t.id === tarefaId)
+                    tarefa.completa = !tarefa.completa
+                } 
+
+                const addTarefa = () => {
+                    tarefas.value.push({
+                        id: tarefas.value.length + 1,
+                        titulo: novaTarefa.value,
+                        completa: false
+                    })
+
+                    novaTarefa.value =  ''
+                }
+
+                const tarefasIncompletas = computed(() => tarefas.value.filter(t => !t.completa))
+                const tarefasCompletas = computed(() => tarefas.value.filter(t => t.completa))
+
+                return { novaTarefa, tarefas, tarefasIncompletas, tarefasCompletas, mudarStatus, addTarefa }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
