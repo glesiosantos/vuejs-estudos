@@ -5,7 +5,7 @@
     </h2>
 
     <div class="space-y-4">
-      <filme-lista-item v-for="(filme, index) in filmes" :ref="index" :titulo="filme" />
+      <filme-lista-item v-for="(filme, index) in filmes" :key="index" :titulo="filme" />
     </div>
   </section>
 
@@ -19,6 +19,6 @@ import { ref } from 'vue'
 import FilmeListaItem from './FilmeListaItem.vue'
 import FilmeListaItemEditar from './FilmeListaItemEditar.vue'
 
-const filmes = ref(['Vingadores Guerra Infinita', 'Homem Formiga e Vespa', 'Pantenra Negra'])
+const filmes = ref(['Vingadores Guerra Infinita', 'Homem Formiga e Vespa', 'Pantenra Negra', 'DeadPool', 'DeadPool 2', ''])
 
 </script>
