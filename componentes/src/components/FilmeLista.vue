@@ -12,7 +12,6 @@
         :class="filmeSelecionado?.id === filme.id ? 'bg-blue-100 border-blue-500': 'bg-white border-gray-400'"
         @selecionar="handleSelecionar"
       />
-      <filme-lista-item v-for="(filme, index) in filmes" :key="index" :titulo="filme" />
     </div>
   </section>
 
