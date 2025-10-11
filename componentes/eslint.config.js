@@ -12,12 +12,12 @@ export default [
     files: ['**/*.js', '**/*.vue'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module',
+      sourceType: 'module'
     },
     plugins: {
       import: pluginImport,
       n: pluginN,
-      promise: pluginPromise,
+      promise: pluginPromise
     },
     rules: {
       // Regras padrão do StandardJS
@@ -30,6 +30,7 @@ export default [
       'no-unused-vars': ['warn'],
       'vue/html-indent': ['error', 2],
       'vue/max-attributes-per-line': ['error', { singleline: 3 }],
-    },
-  },
+      'vue/require-default-prop': 'off'
+    }
+  }
 ]

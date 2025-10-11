@@ -9,7 +9,6 @@
 <script setup>
 import { eventBus } from '../eventBus'
 
-
     const props = defineProps({
         filme: {
             type: Object,
@@ -23,5 +22,4 @@ import { eventBus } from '../eventBus'
         // emit('selecionar', props.filme)
         eventBus.emit('selecionar', props.filme)
     }
-
 </script>
