@@ -4,7 +4,7 @@
   </h2>
   <div v-if="filme" class="bg-white border rounded-md p-4 shadow-sm flex justify-between items-center">
     <span class="font-medium text-sm">{{ filme.titulo }}</span>
-    <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">
+    <button @click="editarFilme" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">
       Editar
     </button>
   </div>
@@ -13,9 +13,17 @@
   </p>
 </template>
 <script setup>
+import { eventBus } from '../eventBus'
+
 const props = defineProps({
     filme: {
         type: Object
     }
 })
+const emit = defineEmits(['editar'])
+
+const editarFilme = () => {
+    eventBus.emit('editar', props.filme)
+}
+
 </script>

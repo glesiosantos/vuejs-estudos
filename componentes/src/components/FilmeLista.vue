@@ -17,13 +17,16 @@
 
   <!-- Coluna Direita -->
   <section>
-    <filme-lista-item-info :filme="filmeSelecionado" />
+    <filme-lista-item-info :filme="filmeSelecionado" v-if="!editar"
+    @editar="handleEditar"/>
+    <filme-lista-item-editar v-else  :filme="filmeSelecionado" @salvar="handleSalvar"/>
   </section>
 </template>
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import FilmeListaItem from './FilmeListaItem.vue'
 import FilmeListaItemInfo from './FilmeListaItemInfo.vue'
+import FilmeListaItemEditar from './FilmeListaItemEditar.vue'
 import { eventBus } from '../eventBus'
 
 const filmes = ref([
@@ -33,11 +36,35 @@ const filmes = ref([
 ])
 
 const filmeSelecionado = ref(null)
+const editar = ref(false)
+
 const handleSelecionar = (filme) => {
-    filmeSelecionado.value?.id === filme.id ? filmeSelecionado.value = null : filmeSelecionado.value = filme}
+  filmeSelecionado.value?.id === filme.id
+    ? filmeSelecionado.value = null
+    : filmeSelecionado.value = filme
+}
+
+const handleEditar = (filme) => {
+  editar.value = true
+  filmeSelecionado.value = { ...filme } // CORREÇÃO
+}
+
+const handleSalvar = (filmeEditado) => {
+  const idx = filmes.value.findIndex(f => f.id === filmeEditado.id)
+  if (idx !== -1) filmes.value[idx] = filmeEditado
+  editar.value = false // volta para modo visualização
+}
+
+
 // escuta o evento
-onMounted(() => eventBus.on('selecionar', handleSelecionar))
+onMounted(() => {
+    eventBus.on('selecionar', handleSelecionar)
+    eventBus.on('editar', handleEditar)
+})
 
 // limpa o evento
-onUnmounted(() => eventBus.off('selecionar', handleSelecionar))
+onUnmounted(() => {
+    eventBus.off('selecionar', handleSelecionar),
+    eventBus.off('editar', handleEditar)
+})
 </script>
